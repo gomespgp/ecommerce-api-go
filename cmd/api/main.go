@@ -15,9 +15,15 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/jackc/pgx/v5/pgxpool"
 	_ "github.com/jackc/pgx/v5/stdlib"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	// Load .env file if it exists (useful for local development outside docker)
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found, using system environment variables")
+	}
+
 	ctx := context.Background()
 
 	dbConnStr := os.Getenv("DB_CONN_STR")
@@ -49,7 +55,7 @@ func main() {
 
 	// 2. Run Database Migrations Automatically
 	log.Println("Running database migrations...")
-	
+
 	// We need a standard sql.DB connection just for the migrator library
 	migrationConnStr := os.Getenv("DB_CONN_STR")
 
