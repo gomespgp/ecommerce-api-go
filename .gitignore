@@ -1,0 +1,22 @@
+# Compiled binaries
+main
+main.exe
+*.exe
+*.test
+*.prof
+
+# Local configuration & secrets
+.env
+*.local
+
+# IDE configurations
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Docker files we don't need to commit
+/postgres_data/
