@@ -20,3 +20,4 @@ main.exe
 
 # Docker files we don't need to commit
 /postgres_data/
+.aider*
