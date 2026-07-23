@@ -69,25 +69,14 @@ func main() {
 	}
 	log.Println("Database migrations applied successfully!")
 
-	// 3. Initialize Layers
-	repo := item.NewRepository(dbPool)
-	service := item.NewService(repo)
-	handler := item.NewHandler(service)
-
-	// 4. Initialize Router
+	// 3. Initialize Router
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Timeout(60 * time.Second))
 
-	r.Route("/items", func(r chi.Router) {
-		r.Post("/", handler.Create)
-		r.Post("/bulk", handler.CreateBulk)
-		r.Get("/", handler.List)
-		r.Get("/{id}", handler.Get)
-		r.Put("/{id}", handler.Update)
-		r.Delete("/{id}", handler.Delete)
-	})
+	// 4. Initialize Layers and register route groups
+	item.RegisterItemRoutes(dbPool, r)
 
 	// 5. Start Server
 	port := ":8080"
